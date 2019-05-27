@@ -6,41 +6,38 @@ import java.util.Scanner;
 
 
 
-
-
-
-
 public class Usuario {
 	private String nombre;
 	private String contrasenia;
-	ArrayList<Usuario> listaUsuarios;
-    ArrayList<TiposPlato> gustos;
-	
 	private String email;
+    private ArrayList<TiposPlato> gustos;
 	
-	public Usuario(String nombre, String contrasenia,  String email) throws ContraseniaCortaException {
+	
+	
+	public Usuario(String nombre, String contrasenia,  String email) throws ContraseniaCortaException, NombreCortoException {
 		super();
 		this.nombre = nombre;
 		this.setContrasenia(contrasenia);
-		
+		this.setNombre(nombre);
 		this.email = email;
 	}
-	public Usuario(String nombre, String contrasenia) throws ContraseniaCortaException {
-        this.nombre = nombre;
-        this.contrasenia = contrasenia;
-        this.setNombre(nombre);
-        //hice la clase final pero no sé si es correcto?¿?¿?
-        setContrasenia(contrasenia);
-
-    }
 	
-	public Usuario(String nombre, String contrasenia, ArrayList<TiposPlato> gustos) {
-        this.nombre = nombre;
-        this.contrasenia = contrasenia;
+	
+	public Usuario(String nombre, String contrasenia, String email,ArrayList<TiposPlato> gustos) throws ContraseniaCortaException, NombreCortoException {
+        super();
+		this.nombre = nombre;
+		this.setContrasenia(contrasenia);
+		this.setNombre(nombre);
+		this.email = email;
         this.gustos = gustos;
     }
 
     
+
+	public Usuario() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	/**
 	 * @return the nombre
@@ -49,10 +46,11 @@ public class Usuario {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(String nombre) throws NombreCortoException {
         while (nombre.length() > 30 || nombre.length() < 6) {
             System.out.println("Nombre usuario no válido, introduce un nombre de entre 6 y 30 carácteres");
             nombre = leerTexto();
+            throw new NombreCortoException("El nombre es incorrecto ");
         }
         this.nombre = nombre;
     }
@@ -69,7 +67,7 @@ public class Usuario {
             if (contrasenia.length() > 30 || contrasenia.length() < 6) {
             	System.out.println("Contrasenia no válida, introduce una contraseña de entre 6 y 30 carácteres");
                 contrasenia = leerTexto();
-            	throw new ContraseniaCortaException();
+            	throw new ContraseniaCortaException("La contraseña es incorrecta ");
                 
             } else if (contrasenia.equals(nombre)) {
                 System.out.println("¡La contraseña y el nombre de usuario no pueden coincidir!");
@@ -113,24 +111,6 @@ public class Usuario {
 
     }
 	
-	/*
-	 * 
-public void setContrasenia(String contrasenia) throws ContraseniaCortaException {
-		if (contrasenia.length()<8) {
-			throw new ContraseniaCortaException();
-			
-		}
-		this.contrasenia = contrasenia;
-	}
-    
 
-    
-    
-
-    
-
-    
-    
-	 */
 
 }

@@ -33,5 +33,31 @@ public class BotonMenu extends JButton {
 			}
 		});
 	}
+	
+	public BotonMenu() {
+		
+		
+		this.setBounds(467, 146, 50, 50);
+		this.setBorder(new LineBorder(new Color(0, 100, 0)));
+		
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        //esto hay que mirarlo
+        this.setOpaque(true);
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(true);
+        this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setBackground(new Color(132, 235, 200));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setBackground(new Color(102, 205, 170));
+			}
+		});
+	}
+
+	
 
 }

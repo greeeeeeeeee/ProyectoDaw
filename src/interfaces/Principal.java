@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import componentes.MiLabel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Principal extends JPanel{
 	
@@ -44,10 +47,20 @@ public class Principal extends JPanel{
 		jsp.add(listaUsuarios);//DENTRO DEL SCROLL. METEMOS EL PANEL
 		add(jsp);//NO SE PA Q ES
 		listaUsuarios.setLayout(new GridLayout(0, 1, 0, 0)); //ESTO SE PONE PARA QUE PUEDA SALIR EN ORDEN EL LISTADO DE TODOS LOS USUARIOS DE LA BD
+		
+		JButton btnLogin = new JButton("Login");
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				ventana.irALogin();
+			}
+		});
+		btnLogin.setBounds(351, 37, 89, 23);
+		add(btnLogin);
 		this.ventana.setSize(450, 300);
 		//AQUI VAMOS A LISTAR TODOS LOS USUARIOS
 		try {
-			ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.26:3306/huesitos","1dam","123"));//CONECTAMOS A BASE DE DATOS
+			ventana.setCon(DriverManager.getConnection("\"jdbc:mysql://192.168.1.68:3306/recetas","chef","chef"));//CONECTAMOS A BASE DE DATOS
 			
 			Statement smt = ventana.getCon().createStatement();//NO SE PA Q 
 			ResultSet rs = smt.executeQuery("select * from usuarios");//LLAMAMOS A TODOS LOS ELEMENTOS DE LA TABLA USUARIO

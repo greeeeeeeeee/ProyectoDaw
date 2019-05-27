@@ -12,6 +12,14 @@ package clases;
 public enum TiposPlato {
     ENSALADA,
     CARNE,
-    PESCADO
+    PESCADO,
+    QUESO,
+    POLLO,
+    CÓCTELES,
+    DULCES,
+    BEBIDA,
+    SALSA,
+    PASTA,
+    None
     
 }

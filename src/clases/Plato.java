@@ -17,6 +17,7 @@ public class Plato {
     private TiposPlato tipo;
     private int numeroPersonas;
     private LocalTime tiempo;
+    private String pasos;
 
     public Plato(String nombrePlato, Ingrediente[] ingredientes, int numeroPersonas,  LocalTime tiempo) {
         this.nombrePlato = nombrePlato;
@@ -24,8 +25,53 @@ public class Plato {
         this.numeroPersonas = numeroPersonas;
         this.tiempo = tiempo;
     }
+    
 
-    public String getNombrePlato() {
+    public Plato(String nombrePlato, Ingrediente[] ingredientes, TiposPlato tipo, int numeroPersonas,
+			LocalTime tiempo, String pasos) {
+		super();
+		this.nombrePlato = nombrePlato;
+		this.ingredientes = ingredientes;
+		this.tipo = tipo;
+		this.numeroPersonas = numeroPersonas;
+		this.tiempo = tiempo;
+		this.pasos = pasos;
+	}
+
+
+	/**
+	 * @return the tipo
+	 */
+	public TiposPlato getTipo() {
+		return tipo;
+	}
+
+
+	/**
+	 * @param tipo the tipo to set
+	 */
+	public void setTipo(TiposPlato tipo) {
+		this.tipo = tipo;
+	}
+
+
+	/**
+	 * @return the pasos
+	 */
+	public String getPasos() {
+		return pasos;
+	}
+
+
+	/**
+	 * @param pasos the pasos to set
+	 */
+	public void setPasos(String pasos) {
+		this.pasos = pasos;
+	}
+
+
+	public String getNombrePlato() {
         return nombrePlato;
     }
 

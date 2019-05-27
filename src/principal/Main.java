@@ -31,30 +31,8 @@ public class Main {
         gustos1 = new ArrayList<TiposPlato>();
         Usuario usuarioGusto = new Usuario(, contraseniaRegis, gustos1);
         
-          System.out.println("Dime 10 de tus gustos culinarios: ");
-        for (int i = 0; i < 10; i++) {
-            System.out.println("Gusto número "+i);
-            gustos1.add(leerTexto());
-        }
+         */ 
          
-        
-        //---------------- creacion de platos
-        
-        HashMap<String, Plato> misPlatos = new HashMap<String, Plato>();
-        Ingrediente[] ingredientesPapasHuevos = {new Ingrediente("Patata", 500), new Ingrediente("Huevo", 30), new Ingrediente("Sal", -1)};
-        misPlatos.put("Papas con huevos", new Plato("Papas con Huevos", ingredientesPapasHuevos, 1, LocalTime.of(0, 30)));
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Dime plato a ver");
-        String nombre = sc.nextLine();
-
-        Plato plato = misPlatos.get(nombre);
-        if (plato == null) {
-            System.out.println("Ese plato no existe");
-        } else {
-            System.out.println(plato);
-        }
-        */
         /*
         //---------crear usuario
         
@@ -161,6 +139,6 @@ public class Main {
 
     
 
-}
- */
+}*/
+ 
 }

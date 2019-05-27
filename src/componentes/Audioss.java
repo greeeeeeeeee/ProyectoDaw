@@ -24,7 +24,7 @@ public Audioss(String path) {
 	Media media = new Media(new File(path).toURI().toString());
 	mp = new MediaPlayer(media);
 	mp.setAutoPlay(true);
-	mp.setVolume(0.045);
+	mp.setVolume(0.1);
 	MediaView mediaView = new MediaView(mp);
 	}
 	public MediaPlayer getMp() {
