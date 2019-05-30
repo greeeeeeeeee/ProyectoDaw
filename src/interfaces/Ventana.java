@@ -12,6 +12,7 @@ import clases.Plato;
 import clases.TiposPlato;
 import clases.Usuario;
 import componentes.Audioss;
+import javafx.scene.media.MediaPlayer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,6 +32,7 @@ public class Ventana extends JFrame{
 	private Connection con;
 	ImageIcon imagen;
 	private Audioss audi;
+	private Audioss audiPri;
 	private ListaRec lista;
 	private Recetas rec;
 	private NuevasRec nueva;
@@ -38,7 +40,7 @@ public class Ventana extends JFrame{
 	private Ventana thisRef;
 	private Plato plato;
 	private Ingrediente ingredientes;
-	
+	 
 	
 	
 
@@ -72,6 +74,20 @@ public class Ventana extends JFrame{
 	
 	
 	
+
+	/**
+	 * @return the audiPri
+	 */
+	public Audioss getAudiPri() {
+		return audiPri;
+	}
+
+	/**
+	 * @param audiPri the audiPri to set
+	 */
+	public void setAudiPri(Audioss audiPri) {
+		this.audiPri = audiPri;
+	}
 
 	/**
 	 * @return the audi
@@ -137,6 +153,8 @@ public class Ventana extends JFrame{
 	public Ventana() {
 		super();
 		elr = new EligeLoginRegistro(this, "FONDON.jpg");
+		
+		audiPri = new Audioss();
 		//elr.setBackground(Color.CYAN);
 		this.setTitle("Mmm");
 		this.setSize(1100, 600);
@@ -189,11 +207,10 @@ public class Ventana extends JFrame{
 		//1- Inicializar login, si no lo est� a
 		if (login==null) {
 			this.login = new Login(this,"login.jpg");
-		}else {
-			String ejem ="";
-			audi = new Audioss(ejem);
-			
 		}
+		audiPri.Stop();
+		audi = new Audioss("");
+		
 		//2- Hacer invisible las ventanas anteriores
 		this.elr.setVisible(false);
 		
@@ -211,6 +228,8 @@ public class Ventana extends JFrame{
 		/*if (this.elr!=null) {
 			this.elr.setVisible(false);
 		}*/
+		audiPri.Stop();
+		audi = new Audioss("");
 		this.elr.setVisible(false);
 		this.setContentPane(registro);
 		this.registro.setVisible(true);
@@ -219,14 +238,21 @@ public class Ventana extends JFrame{
 	
 	
 	public void irAEligeLoginRegistro() {
+		
 		if (elr==null) {
 			this.elr= new EligeLoginRegistro(this, "FONDON.jpg");
 			
 		}
 		if(login!=null) {
 			login.setVisible(false);}
+		
+		if(registro!=null) {
+			registro.setVisible(false);
+		}
+
 		this.setContentPane(elr);
 		this.elr.setVisible(true);
+		audi.Stop();
 	}
 	
 	public void irAPrincipal() {
@@ -241,7 +267,8 @@ public class Ventana extends JFrame{
 		this.setContentPane(principal);
 		this.principal.setVisible(true);
 	}
-	public void irALista() {
+	public void irALista(String nombreUsuario) {
+		audi.Stop();
 		if(login!=null) {
 			this.login.setVisible(false);
 		}
@@ -250,7 +277,7 @@ public class Ventana extends JFrame{
 		}
 		
 		if (lista==null) {
-			this.lista= new ListaRec(this,"login.jpg");
+			this.lista= new ListaRec(this,"login.jpg", nombreUsuario);
 		
 		}
 		
@@ -271,9 +298,9 @@ public class Ventana extends JFrame{
 	
 	
 	
-	public void irAReceta() {
+	public void irAReceta(Plato p) {
 		if (rec==null) {
-			this.rec= new Recetas(this,"login.jpg");
+			this.rec= new Recetas(this,"login.jpg",p);
 		
 		}
 		

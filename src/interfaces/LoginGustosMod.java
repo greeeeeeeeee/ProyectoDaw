@@ -95,17 +95,7 @@ public class LoginGustosMod extends JPanel {
 		});
 		add(botonAtras2);
 		
-		JButton btnIaA = new JButton("ia a");
-		btnIaA.setBounds(217, 241, 89, 23);
-		btnIaA.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				audio2.getMp().stop();
-				botOn=false;
-				ventana.irALista();
-			}
-		});
-		add(btnIaA);
+		
 		
 		JLabel lblGustos = new JLabel("Gustos");
 		lblGustos.setBounds(244, 275, 175, 54);
@@ -126,7 +116,7 @@ public class LoginGustosMod extends JPanel {
 		JButton añadirGustoPasta;
 		añadirGustoPasta = new JButton("Pasta");
 		añadirGustoPasta.setBounds(609, 157, 100, 94);
-		añadirGustoPasta.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/pasta.jpg")));
+		añadirGustoPasta.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/ensalada.jpg")));
 		add(añadirGustoPasta);
 		
 		añadirGustoPasta.setVisible(false);
@@ -273,6 +263,20 @@ public class LoginGustosMod extends JPanel {
 				panel2.setVisible(true);*/
 			}
 		});
+		String nombreUsuario = campoNombreUsuario.getText();
+		
+		//ir a 
+		JButton btnIaA = new JButton("ia a");
+		btnIaA.setBounds(217, 241, 89, 23);
+		btnIaA.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				audio2.getMp().stop();
+				botOn=false;
+				ventana.irALista(nombreUsuario);
+			}
+		});
+		add(btnIaA);
 		
 		
 		
@@ -286,7 +290,7 @@ public class LoginGustosMod extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				audio2.getMp().stop();
 				botOn=false;
-				String nombreUsuario = campoNombreUsuario.getText();
+				
 				String contrasenia = String.copyValueOf(campoContrasenia.getPassword());
 				try {
 					ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.68:3306/recetas","chef","chef"));//CONECTAMOS A LA BASE DE DATOS

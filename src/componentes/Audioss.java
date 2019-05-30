@@ -1,6 +1,7 @@
 package componentes;  
 import java.io.File;
 
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;  
@@ -10,7 +11,7 @@ public class Audioss extends Object {
 	private MediaPlayer mp;
 	
 	public Audioss() {
-		
+		//JFXPanel fxPanel = new JFXPanel();   NECESARIO
 				String path = "src/audios/Tutorial.mp3";
 				Media media = new Media(new File(path).toURI().toString());
 				mp = new MediaPlayer(media);

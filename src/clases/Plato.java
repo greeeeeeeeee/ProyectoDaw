@@ -18,6 +18,15 @@ public class Plato {
     private int numeroPersonas;
     private LocalTime tiempo;
     private String pasos;
+    
+    public static String tipoPlatoToString(TiposPlato tipo) {
+    	switch(tipo) {
+    	case PASTA:
+    		return "pasta";
+    		
+    	}
+    	return null;
+    }
 
     public Plato(String nombrePlato, Ingrediente[] ingredientes, int numeroPersonas,  LocalTime tiempo) {
         this.nombrePlato = nombrePlato;
@@ -76,6 +85,8 @@ public class Plato {
     }
 
     public Ingrediente[] getIngredientes() {
+    	
+    	
         return ingredientes;
     }
 

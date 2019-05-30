@@ -24,8 +24,8 @@ public class EligeLoginRegistro extends JPanel{
 	private Ventana ventana;
 	ImageIcon imagen;
 	ImageIcon imagen2;
-	private boolean pausa = false;
-	Audioss audio1; 
+	private boolean pausa ;
+	
 	Font font ;
 	public EligeLoginRegistro(Ventana v ,String nombre) {
 		super();
@@ -34,12 +34,7 @@ public class EligeLoginRegistro extends JPanel{
 		//setFont(new Font("Lucida Fax", Font.PLAIN, 11));
 		this.ventana = v;
 		imagen = new ImageIcon(getClass().getResource(nombre));
-		
-		
-		
-		
-		
-		 
+		JFXPanel fxPanel = new JFXPanel();
 		 /*
 		  * imagen2 = new ImageIcon(getClass().getResource(nombre));
 		;
@@ -59,19 +54,13 @@ public class EligeLoginRegistro extends JPanel{
 		*/
 		
 		
-		JFXPanel fxPanel = new JFXPanel();
-		  audio1 = new Audioss();
-		
-		
-		
-		
 		
 		
 		  
 		BotonMenu botonRegistro = new BotonMenu("Registro");
-		botonRegistro.setBounds(105, 384, 269, 105);
+		botonRegistro.setBounds(78, 384, 296, 121);
 		botonRegistro.setText("");
-		botonRegistro.setBorder(new LineBorder(new Color(0, 100, 0), 15, true));
+		botonRegistro.setBorder(null);
 		botonRegistro.setBackground(UIManager.getColor("Tree.textBackground"));
 		botonRegistro.setForeground(UIManager.getColor("Tree.textBackground"));
 		botonRegistro.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -79,8 +68,8 @@ public class EligeLoginRegistro extends JPanel{
 		botonRegistro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				audio1.Stop();
-				pausa=true;
+				ventana.getAudiPri().getMp().stop();
+				//pausa=true;
 				ventana.irARegistro();
 			}
 			
@@ -91,15 +80,15 @@ public class EligeLoginRegistro extends JPanel{
 		BotonMenu botonLogin = new BotonMenu("Login");
 		botonLogin.setBounds(709, 372, 283, 105);
 		botonLogin.setText("");
-		botonLogin.setBorder(new LineBorder(new Color(0, 100, 0), 14, true));
+		botonLogin.setBorder(null);
 		botonLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		botonLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				audio1.getMp().stop();
-				pausa=true;
+				
+				//pausa=true;
 				ventana.irALogin();
 				
 			}
@@ -120,10 +109,10 @@ public class EligeLoginRegistro extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(pausa==true) {
-					audio1.getMp().play();
+					ventana.getAudiPri().getMp().play();
 					pausa=false;
 				}else {
-					audio1.getMp().stop();
+					ventana.getAudiPri().getMp().pause();
 					pausa=true;
 				}
 			      
@@ -137,7 +126,7 @@ public class EligeLoginRegistro extends JPanel{
 		lblBienvenidoa.setText("Bienvenido/a!");
 		lblBienvenidoa.setFont(new Font("DialogInput", Font.BOLD, 40));
 		lblBienvenidoa.setForeground(Color.BLUE);
-		lblBienvenidoa.setBounds(366, 260, 428, 51);
+		lblBienvenidoa.setBounds(367, 260, 428, 51);
 		add(lblBienvenidoa);
 		
 		

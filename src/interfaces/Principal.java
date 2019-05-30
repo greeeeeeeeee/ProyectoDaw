@@ -60,7 +60,7 @@ public class Principal extends JPanel{
 		this.ventana.setSize(450, 300);
 		//AQUI VAMOS A LISTAR TODOS LOS USUARIOS
 		try {
-			ventana.setCon(DriverManager.getConnection("\"jdbc:mysql://192.168.1.68:3306/recetas","chef","chef"));//CONECTAMOS A BASE DE DATOS
+			ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef"));//CONECTAMOS A BASE DE DATOS
 			
 			Statement smt = ventana.getCon().createStatement();//NO SE PA Q 
 			ResultSet rs = smt.executeQuery("select * from usuarios");//LLAMAMOS A TODOS LOS ELEMENTOS DE LA TABLA USUARIO

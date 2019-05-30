@@ -2,7 +2,13 @@ package interfaces;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Array;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -14,40 +20,44 @@ import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import java.awt.Color;
-import javax.swing.JComboBox;
-import java.awt.Component;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import clases.Ingrediente;
 import clases.Plato;
+import clases.TiposPlato;
 
 import java.awt.Font;
 
 public class ListaRec extends JPanel {
 private Ventana ventana;
+final private String nombreUsuario;
+private ImageIcon imagen;
+private String nombreplato;
+private TiposPlato tipo;
+private LocalTime tiempo;
+private Plato platin;
 
-ImageIcon imagen;
 private JTextField textFieldBuscador;
-	public ListaRec (Ventana v,String nombre) {
+	public ListaRec (Ventana v,String nombre, String nombreUsuario) {
 		super();
 		this.ventana=v;
+		this.nombreUsuario=nombreUsuario;
 		//ventana.setSize(800,800);
 		imagen = new ImageIcon(getClass().getResource(nombre));
 		
-		JList list = new JList();
+		
+		JList<String> list = new JList<String>();
 		list.setBounds(140, 141, 777, 285);
-		DefaultListModel modelo = new DefaultListModel();
+		DefaultListModel<String> modelo = new DefaultListModel<String>();
 		
 		
 		//TODO
 		HashMap<String , Plato> misPlatos = new HashMap<String, Plato>();
 		Ingrediente[] ingredientesPapasHuevos = {new Ingrediente("Patata", 500), new Ingrediente("Huevo", 30), new Ingrediente("Sal", -1)};
-        misPlatos.put("Papas con huevos", new Plato("Papas con Huevos", ingredientesPapasHuevos, 1, LocalTime.of(0, 30)));
+		Plato plato1 = new Plato("Papas con Huevos", ingredientesPapasHuevos, 1, LocalTime.of(0, 30));
+        misPlatos.put("Papas con huevos", plato1 );
         
 		
         String clave;
@@ -60,8 +70,35 @@ private JTextField textFieldBuscador;
 	    }  
 	    modelo.addElement("Papas con huevos");
 	    modelo.addElement("Prueba");
-        list.setModel(modelo);
+        
+		
+		try {
+			ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef"));//CONECTAMOS A LA BASE DE DATOS
+	
+			//set global time_zone='+1:00';
+			Statement smt = ventana.getCon().createStatement(); 
+			//he cambiado email por nombre en el where y el getstring
+			ResultSet rs = smt.executeQuery("select nombrePlato from receta_plato where usuario ='"+nombreUsuario+"'");//AQUI SOLO PONEMOS LOS CAMPOS QUE ESTAMOS BUSCANDO PARA HACER LOGIN
+			
+			while (rs.next()) {
+				//AQUI PONEMOS EL RESTO DE CAMPOS
+				nombreplato = rs.getString(1);
+				modelo.addElement(nombreplato);
+			}
+			
+			ventana.getCon().close();
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(ventana, "Conexion fallida","Conexi�n incorrecta", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		
+		
+		list.setModel(modelo);
         add(list);
+
+		
+		
 		
 		JButton botonAtras = new JButton("Atr\u00E1s");
 		botonAtras.setBounds(54, 22, 71, 33);
@@ -91,7 +128,46 @@ private JTextField textFieldBuscador;
 		btnVer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ventana.irAReceta();
+				String eleccion = String.valueOf(list.getSelectedValue());
+				
+				
+				try {
+					
+					ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef"));//CONECTAMOS A LA BASE DE DATOS
+					Statement smt = ventana.getCon().createStatement(); 
+					ResultSet rs = smt.executeQuery("select * from receta_plato where nombrePlato ='"+eleccion+"' and usuario ='"+nombreUsuario+"'");//AQUI SOLO PONEMOS LOS CAMPOS QUE ESTAMOS BUSCANDO PARA HACER LOGIN
+					
+					if (rs.next()) {
+						//Plato(String nombrePlato, Ingrediente[] ingredientes, TiposPlato tipo, int numeroPersonas,LocalTime tiempo, String pasos)
+						nombreplato = rs.getString(1);
+						String ingrediente1 = rs.getString(2);
+						Ingrediente[] ingredientes = {new Ingrediente(ingrediente1, 2)};
+						tipo = tipo.valueOf(rs.getString(3));
+						int personas = rs.getInt(4);
+						String tiempo1 = rs.getString(5);
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H/M");
+
+						//convert String to LocalDate
+						tiempo = LocalTime.parse(tiempo1, formatter);
+						
+						String pasitos = rs.getString(6);
+						platin = new Plato(nombreplato, ingredientes, tipo, personas, tiempo, pasitos);
+					}
+					
+					
+					
+					
+					ventana.getCon().close();
+					ventana.irAReceta(platin);
+				} catch (SQLException e2) {
+					JOptionPane.showMessageDialog(ventana, "Conexion fallida","Conexi�n incorrecta", JOptionPane.ERROR_MESSAGE);
+					e2.printStackTrace();
+				} 
+				
+				
+				
+				
+				
 			}
 		});
 		add(btnVer);
@@ -124,6 +200,12 @@ private JTextField textFieldBuscador;
 		add(textFieldBuscador);
 		textFieldBuscador.setColumns(10);
 		
+	}
+	/**
+	 * @return the nombreUsuario
+	 */
+	public String getNombreUsuario() {
+		return nombreUsuario;
 	}
 	protected void paintComponent(Graphics g) {
 		Dimension d = getSize();

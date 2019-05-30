@@ -29,15 +29,19 @@ import java.awt.event.ActionEvent;
 
 public class Recetas extends JPanel {
 	private Ventana ventana;
+	private String nombre;
 	ImageIcon imagen;
 	public Recetas thisRef;
+	private Plato platin;
+	public ListaRec lista;
 	
-	
-	public Recetas (Ventana v,String nombre) {
+	public Recetas (Ventana v, String nombre, Plato platin) {
+		
 		super();
 		thisRef=this;
 		this.ventana=v;
 		imagen = new ImageIcon(getClass().getResource(nombre));
+		this.platin = platin;
 		setSize(840,552);
 		setLayout(null);
 		
@@ -112,7 +116,7 @@ public class Recetas extends JPanel {
 		//INGREDIENTES
 		
 		List listIngredientes = new List();
-		listIngredientes.setBounds(349, 139, 232, 123);
+		listIngredientes.setBounds(582, 136, 232, 123);
 		panel.add(listIngredientes);
 		
 		JLabel lblIngredientes = new JLabel("Ingredientes");
@@ -223,7 +227,7 @@ public class Recetas extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				
 
-				ventana.irALista();
+				ventana.irALista(lista.getNombreUsuario());
 			}
 		});
 		
@@ -242,27 +246,30 @@ public class Recetas extends JPanel {
 		btnVer.setBounds(408, 506, 112, 35);
 		add(btnVer);
 		
-		String clave;
-	    Iterator<String> nombrecillos = misPlatos.keySet().iterator();
-	  
-	    while(nombrecillos.hasNext()){
-	    	clave = nombrecillos.next();
-	    	campoNombre.setText(misPlatos.get(clave).getNombrePlato());
-	    	
-	    	personas.setText(Integer.toString(misPlatos.get(clave).getNumeroPersonas()));
-	    	
-	    }  
+		JTextArea textIngre = new JTextArea();
+		textIngre.setEditable(false);
+		textIngre.setBounds(322, 136, 198, 134);
+		panel.add(textIngre);
+		
+		
+	    //String nombrePlats = platin.getNombrePlato();
+	    campoNombre.setText(platin.getNombrePlato());
+	    personas.setText(Integer.toString(platin.getNumeroPersonas()));
+	    textAreaPasos.setText(platin.getPasos());
+	   
 		
 	    campoNombre.setEditable(false);
 		personas.setEditable(false);
 		textAreaPasos.setEditable(false);
 		hourPlat.setEditable(false);
 		minPlat.setEditable(false);
+		String ingrediii = null;
+		
+		
+		
+		textIngre.setText(ingrediii.valueOf(platin.getIngredientes()));
 	}
-	private String copyValueOf(int numeroPersonas) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	protected void paintComponent(Graphics g) {
 		Dimension d = getSize();
 		g.drawImage(imagen.getImage(), 0, 0, d.width, d.height, null);

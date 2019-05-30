@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 
 import clases.ContraseniaCortaException;
 import clases.NombreCortoException;
+import clases.Plato;
 import clases.TiposPlato;
 import clases.Usuario;
 import componentes.BotonMenu;
@@ -37,7 +38,8 @@ public class Registro extends JPanel{
 	private JPasswordField campoContrasenia;
 	private JButton botonAtras2;
 	public Registro thisRef;
-	
+	private ArrayList<TiposPlato> gustoUs;
+	//private ArrayList<String> gustoUs;
 	public Registro (Ventana v,String nombre) {
 		super();
 		thisRef=this;
@@ -45,7 +47,7 @@ public class Registro extends JPanel{
 		//ventana.setSize(800,800);
 		imagen = new ImageIcon(getClass().getResource(nombre));
 		setSize(874,501);
-		
+		gustoUs = new ArrayList<TiposPlato>();
 		setBackground(new Color(100,210,21));
 		setLayout(null);
 		
@@ -93,11 +95,6 @@ public class Registro extends JPanel{
 		
 		
 		
-		//PARA HACER USUARIO
-		String nombreUsuario = campoNombre.getText();
-		String contrasenia = String.copyValueOf(campoContrasenia.getPassword());
-		String email = campoEmail.getText();
-		ArrayList<TiposPlato> gustoUs = new ArrayList<TiposPlato>();
 		
 		
 		
@@ -106,6 +103,12 @@ public class Registro extends JPanel{
 		añadirGustoPasta.setBounds(609, 157, 100, 94);
 		añadirGustoPasta.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/pasta.jpg")));
 		add(añadirGustoPasta);
+		
+		JButton añadirGustoEnsalada = new JButton("Ensalada");
+		
+		añadirGustoEnsalada.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/ensalada.jpg")));
+		añadirGustoEnsalada.setBounds(731, 157, 100, 94);
+		add(añadirGustoEnsalada);
 		
 		
 		JPanel gustos = new JPanel();
@@ -116,6 +119,7 @@ public class Registro extends JPanel{
 		añadirGustoPasta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				//gustoUs=new ArrayList<TiposPlato>();
 				//ir a un dialogo donde se pueda seleccionar uno cualquiera entre los gustos disponibles. Recuperarlo en esta pantalla.
 				JButton gusto1;
 				gustos.add( gusto1 =new JButton("Pasta"));
@@ -123,7 +127,7 @@ public class Registro extends JPanel{
 				//PARA EL REFRESCO??
 				//gustos.setVisible(false);
 				gustos.setVisible(true);
-				gustoUs.add(TiposPlato.PASTA);
+					gustoUs.add(TiposPlato.PASTA);
 				
 				gusto1.addMouseListener(new MouseAdapter() {
 					@Override
@@ -140,6 +144,34 @@ public class Registro extends JPanel{
 						añadirGustoPasta.setVisible(true);
 					}
 				});
+			}
+		});
+		
+		añadirGustoEnsalada.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JButton gusto2;
+				gustos.add( gusto2 =new JButton("Ensalada"));
+				añadirGustoEnsalada.setVisible(false);
+				//PARA EL REFRESCO??
+				//gustos.setVisible(false);
+				gustos.setVisible(true);
+					gustoUs.add(TiposPlato.ENSALADA);
+					gusto2.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent arg0) {
+							
+							for (int i = 0; i < gustoUs.size(); i++) {
+								if(gustoUs.get(i)==TiposPlato.PASTA) {
+									gustoUs.remove(i);
+									break;
+								}
+							}
+							
+							gusto2.setVisible(false);
+							añadirGustoPasta.setVisible(true);
+						}
+					});
 			}
 		});
 		
@@ -162,10 +194,12 @@ public class Registro extends JPanel{
 		botonAtras2.setBounds(193, 245, 89, 23);
 		panel.add(botonAtras2);
 		
+		
+		
 		JPanel panel_iconos = new JPanel();
-		panel_iconos.setBackground(Color.BLACK);
-		panel_iconos.setBounds(598, 72, 243, 279);
+		panel_iconos.setBounds(603, 88, 243, 279);
 		add(panel_iconos);
+		panel_iconos.setBackground(Color.BLACK);
 		botonAtras2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -180,110 +214,112 @@ public class Registro extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+
+				//PARA HACER USUARIO
+				
+				String nombreUsuario = campoNombre.getText();
+				String contrasenia = String.copyValueOf(campoContrasenia.getPassword());
+				String email = campoEmail.getText();
 				
 				
-				
-				
-				
-				//añadir gustos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				
-				//ESTO ES PARA GUARDARLO EN LA BASE DE DATOS EL USUARIO RECIEN CREADO
-				//ESTO CREA UN OBJETO USUARIO NUEVO
 				try {
+					Usuario user;
 					
-					//PARA LA TABLA USUARIOS
-					ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.85:3306/recetas","chef","chef")); //ESTO CONECTA A LA BASE DE DATOS
-					//usamos
+					ventana.setUsuario(user=new Usuario (nombreUsuario, contrasenia,  email, gustoUs)); 
+					
+					//ventana.setCon(DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/recetas","root",""));
+					ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef")); //ESTO CONECTA A LA BASE DE DATOS
+					
+					
+					//if(!nombreUsuario.equals("") && !contrasenia.equals("") && !email.equals("") ) {
+					/*else {
+					JOptionPane.showMessageDialog(thisRef, "Error: campo vacíó","Error: campo vacío, rellene todos los campos",JOptionPane.ERROR_MESSAGE);}*/
+					
 					PreparedStatement smt =
-					ventana.getCon().prepareStatement("insert into usuarios values(?,?,?)"); //ESTO INSERTA LOS VALORES
+					ventana.getCon().prepareStatement("insert into usuarios values(?,?,?)"); 
 					
 					smt.setString(1, nombreUsuario);
 					smt.setString(2, contrasenia);
 					smt.setString(3, email);
 					
-					smt.executeUpdate();                                                   //HASTA AQUI SE HAN INSERTADO LOS VALORES PARA LA BASE DE DATOS
+					smt.executeUpdate();                                                  
+					//ESTE CATCH SE PONE PARA QUE NO SE PUEDA REPETIR LA CLAVE PRIMARIA, EN ESTE CASO ES EL EMAI, EN NUESTRO PROYECTO SER� EL NOMBRE DE USUARIO
+					} catch (SQLIntegrityConstraintViolationException iex){
+						try {
+							ventana.getCon().close();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						JOptionPane.showMessageDialog(ventana, "El nombre ya est� registrado, elige otro","Email ya registrado", JOptionPane.ERROR_MESSAGE);
+						
+					}catch (SQLException ex) {
+						// TODO Auto-generated catch block
+						ex.printStackTrace();
+					}
 					
+					catch (ContraseniaCortaException e1) {
+						
+		 JOptionPane.showMessageDialog(ventana, "La contrase�a debe tener al menos 8 caracteres", "Password incorrecto", JOptionPane.ERROR_MESSAGE);
+						//e1.printStackTrace();
+					}
+					
+					catch (NombreCortoException e2) {
+						
+						 JOptionPane.showMessageDialog(ventana, "El nombre debe tener al menos 8 caracteres", "Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
+										//e1.printStackTrace();
+									}
 					
 					//CREAR USUARIO
 					
-					Usuario user;
-					
-					ventana.setUsuario(user=new Usuario (nombreUsuario, contrasenia,  email, gustoUs)); //ESTO CREA EL NUEVO OBJETO USUARIO
 					
 					
 					
-					//PARA TABLA GUSTOS AÑADIR CADA GUSTO EN CADA FILA POR SEPARADO JUNTO CON NOMBRE
+					//Recorrer el panel gustos
+					//gustos.getComponents()
 					/*
+							for (int j = 0; j < gustoUs.size(); j++) {
+									PreparedStatement smt2 =
+										ventana.getCon().prepareStatement("insert into gustostabla values(?,?)"); 
+									;
+						
+							
+								smt2.setString(1, ventana.getUsuario().getNombre());
+								smt2.setString(2,Plato.tipoPlatoToString(gustoUs.get(j)));
+								
+								smt2.executeUpdate(); 
+								
+							}*/
+							
+					//PARA TABLA GUSTOS AÑADIR CADA GUSTO EN CADA FILA POR SEPARADO JUNTO CON NOMBRE
+					
+				try {
 					for (int i = 0; i <gustoUs.size(); i++) {
+						
 						PreparedStatement smt2 =
 								ventana.getCon().prepareStatement("insert into gustostabla values(?,?)"); //ESTO INSERTA LOS VALORES
 								//String indice1="";
-						
-								smt2.setString(1, ventana.getUsuario().getNombre());
+								smt2.setString(1, gustoUs.get(i).toString());
+								smt2.setString(2, ventana.getUsuario().getNombre());
 								
 								//indice1 = gustoUs.get(i).toString();
-								smt2.setString(2, gustoUs.get(i).toString());
+								
 								
 								
 								smt2.executeUpdate(); 
-					}*/
-					
-					//PARA AÑADIR LOS GUSTOS COMO UN UNICO STRING
-					PreparedStatement smt2 =
-							ventana.getCon().prepareStatement("insert into gustostabla values(?,?)"); //ESTO INSERTA LOS VALORES
-							String conjuntoGustos="";
-					
-							smt2.setString(1, ventana.getUsuario().getNombre());
-							int i = 0;
-							
-							//SE PUEDE???????????????
-							/*
-							for(TiposPlato prueba:gustoUs) {
-								conjuntoGustos += prueba.toString()+" , ";
-							}
-							*/
-							
-							for (int j = 0; j < gustoUs.size(); j++) {
-								conjuntoGustos += gustoUs.get(j).toString()+" , ";
-							}
-							
-							smt2.setString(2, conjuntoGustos);
-							
-							
-							smt2.executeUpdate(); 
-					
-					
-					
-					//cerramos
-					
+								
+					}
 					ventana.getCon().close();
-					
-					ventana.irAPrincipal();
-					
-					//ESTE CATCH SE PONE PARA QUE NO SE PUEDA REPETIR LA CLAVE PRIMARIA, EN ESTE CASO ES EL EMAI, EN NUESTRO PROYECTO SER� EL NOMBRE DE USUARIO
-				} catch (SQLIntegrityConstraintViolationException iex){
-					JOptionPane.showMessageDialog(ventana, "El email ya est� registrado, elige otro","Email ya registrado", JOptionPane.ERROR_MESSAGE);
-					
-				}
-				
-				catch (SQLException ex) {
+				}catch (SQLException ex) {
 					// TODO Auto-generated catch block
 					ex.printStackTrace();
 				}
 				
-				catch (ContraseniaCortaException e1) {
-	 JOptionPane.showMessageDialog(ventana, "La contrase�a debe tener al menos 8 caracteres", "Password incorrecto", JOptionPane.ERROR_MESSAGE);
-					//e1.printStackTrace();
-				}
-				
-				catch (NombreCortoException e2) {
-					 JOptionPane.showMessageDialog(ventana, "El nombre debe tener al menos 8 caracteres", "Nombre incorrecto", JOptionPane.ERROR_MESSAGE);
-									//e1.printStackTrace();
-								}
-				
-				
-			}
-		});
+			ventana.irAPrincipal();
+					
+					}
+					
+	});
 		
 		
 		

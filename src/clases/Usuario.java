@@ -65,7 +65,7 @@ public class Usuario {
 	public void setContrasenia(String contrasenia) throws ContraseniaCortaException {
         while (contrasenia.length() > 30 || contrasenia.length() < 6 || contrasenia.equals(nombre)) {
             if (contrasenia.length() > 30 || contrasenia.length() < 6) {
-            	System.out.println("Contrasenia no válida, introduce una contraseña de entre 6 y 30 carácteres");
+            	//System.out.println("Contrasenia no válida, introduce una contraseña de entre 6 y 30 carácteres");
                 contrasenia = leerTexto();
             	throw new ContraseniaCortaException("La contraseña es incorrecta ");
                 

@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import clases.ContraseniaCortaException;
@@ -31,7 +30,7 @@ public class Login extends JPanel {
 	private JPasswordField campoContrasenia;
 	private Ventana ventana;
 	ImageIcon imagen;
-	private Audioss audio2;
+	
 	
 	public Login(Ventana v, String nombre) {
         super();
@@ -43,9 +42,6 @@ public class Login extends JPanel {
 		
 		
 		setLayout(null);
-		String ejem ="";
-		audio2 = new Audioss(ejem);
-		
 		JLabel lblNewLabel = new JLabel("Usuario : ");
 		lblNewLabel.setFont(new Font("Banana Yeti", Font.BOLD, 40));
 		lblNewLabel.setForeground(Color.WHITE);
@@ -67,16 +63,16 @@ public class Login extends JPanel {
 		campoContrasenia.setBounds(217, 181, 202, 29);
 		add(campoContrasenia);
 		campoContrasenia.setColumns(10);
-		
+		String nombreUsuario2="";
 		BotonMenu botonLogin = new BotonMenu("Login");
 		botonLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				audio2.getMp().stop();
+				
 				String nombreUsuario = campoNombreUsuario.getText();
 				String contrasenia = String.copyValueOf(campoContrasenia.getPassword());
 				try {
-					ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.68:3306/recetas","chef","chef"));//CONECTAMOS A LA BASE DE DATOS
+					ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef"));//CONECTAMOS A LA BASE DE DATOS
 					
 				/*	//AHORA USAMOS LA BASE DE DATOS
 				 * CREATE USER 'chef' IDENTIFIED BY 'chef';
@@ -93,7 +89,7 @@ public class Login extends JPanel {
 					//set global time_zone='+1:00';*/
 					Statement smt = ventana.getCon().createStatement(); 
 					//he cambiado email por nombre en el where y el getstring
-					ResultSet rs = smt.executeQuery("select * from usuarios where nombre ='"+nombreUsuario+"' and contrase�a = '"+contrasenia+"'");//AQUI SOLO PONEMOS LOS CAMPOS QUE ESTAMOS BUSCANDO PARA HACER LOGIN
+					ResultSet rs = smt.executeQuery("select * from usuarios where Nombre ='"+nombreUsuario+"' and Password = '"+contrasenia+"'");//AQUI SOLO PONEMOS LOS CAMPOS QUE ESTAMOS BUSCANDO PARA HACER LOGIN
 					if (rs.next()) {
 						//AQUI PONEMOS EL RESTO DE CAMPOS
 						String email = rs.getString("email");
@@ -106,7 +102,7 @@ public class Login extends JPanel {
 							e.printStackTrace();
 						}
 						
-						ventana.irAPrincipal();
+						ventana.irALista(nombreUsuario);
 						
 					}else {
 						JOptionPane.showMessageDialog(ventana, "Contrase�a incorrecta","Contrase�a incorrecta", JOptionPane.ERROR_MESSAGE);
@@ -133,7 +129,7 @@ public class Login extends JPanel {
 		botonAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				audio2.getMp().stop();
+				
 
 				ventana.irAEligeLoginRegistro();
 			}
@@ -145,8 +141,8 @@ public class Login extends JPanel {
 		btnIaA.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				audio2.getMp().stop();
-				ventana.irALista();
+				
+				ventana.irALista(nombreUsuario2);
 			}
 		});
 		btnIaA.setBounds(217, 241, 89, 23);
@@ -156,8 +152,6 @@ public class Login extends JPanel {
 		panel.setBackground(Color.BLACK);
 		panel.setBounds(10, 34, 461, 310);
 		add(panel);
-		
-		ButtonGroup group=new ButtonGroup();
 		
 		this.setVisible(true);
 	}

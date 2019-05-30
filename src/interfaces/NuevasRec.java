@@ -41,6 +41,8 @@ public class NuevasRec extends JPanel {
 	public NuevasRec thisRef;
 	private JTextField campoNombre;
 	private JTextArea textAreaPasos;
+	public Plato platin;
+	public ListaRec lista;
 	
 	public NuevasRec (Ventana v,String nombre) {
 		super();
@@ -56,7 +58,7 @@ public class NuevasRec extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				
 
-				ventana.irALista();
+				ventana.irALista(lista.getNombreUsuario());
 			}
 		});
 		setLayout(null);
@@ -240,7 +242,8 @@ public class NuevasRec extends JPanel {
         
         HashMap<String, Plato> misPlatos = new HashMap<String, Plato>();
         Ingrediente[] ingredientesPapasHuevos = {new Ingrediente("Patata", 500), new Ingrediente("Huevo", 30), new Ingrediente("Sal", -1)};
-        misPlatos.put("Papas con huevos", new Plato("Papas con Huevos", ingredientesPapasHuevos, 1, LocalTime.of(0, 30)));
+        Plato platin1 = new Plato("Papas con Huevos", ingredientesPapasHuevos, 1, LocalTime.of(0, 30));
+        misPlatos.put("Papas con huevos", platin1 );
         
         Ingrediente[] ingredientesMojito = {new Ingrediente("cucharaditas de azúcar blanco", 2), new Ingrediente("hojas de hierbabuena", 8), new Ingrediente("ml de zumo de lima", 30)
         		, new Ingrediente("ml. de ron cubano", 60), new Ingrediente("lima en rodajas o cuartos", 1/2),new Ingrediente("ml. de Soda", 120),new Ingrediente("Hielo picado", -1)};
