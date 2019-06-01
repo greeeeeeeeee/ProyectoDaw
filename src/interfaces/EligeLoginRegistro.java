@@ -71,9 +71,10 @@ public class EligeLoginRegistro extends JPanel {
 		add(botonLogin);
 
 		BotonMenu botonSonido = new BotonMenu("Sonido");
-		botonSonido.setBounds(404, 372, 223, 105);
-		botonSonido.setText("Sonido");
-		botonSonido.setBorder(new LineBorder(new Color(0, 100, 0), 14, true));
+		botonSonido.setIcon(new ImageIcon(EligeLoginRegistro.class.getResource("/imagenes/microChul.jpg")));
+		botonSonido.setBounds(30, 19, 92, 105);
+		botonSonido.setText("");
+		botonSonido.setBorder(new LineBorder(Color.RED, 6, true));
 		botonSonido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		botonSonido.setBorderPainted(true);
 
@@ -83,26 +84,29 @@ public class EligeLoginRegistro extends JPanel {
 				if (pausa == true) {
 					ventana.getAudiPri().getMp().play();
 					pausa = false;
+					botonSonido.setBorder(new LineBorder(Color.RED, 6, true));
 				} else {
 					ventana.getAudiPri().getMp().pause();
 					pausa = true;
+					botonSonido.setBorder(new LineBorder(Color.GREEN, 6, true));
 				}
 
 			}
 		});
 		add(botonSonido);
-
+		
+		/*
 		MiLabel lblBienvenidoa = new MiLabel("Bienvenido/a", 35);
 		lblBienvenidoa.setBackground(Color.CYAN);
 		lblBienvenidoa.setText("Bienvenido/a!");
 		lblBienvenidoa.setFont(new Font("Breakfast DEMO", Font.BOLD, 60));
 		lblBienvenidoa.setForeground(Color.BLUE);
 		lblBienvenidoa.setBounds(10, 11, 268, 74);
-		add(lblBienvenidoa);
+		add(lblBienvenidoa);*/
 
 		try {
-			String ban = "billy.ttf";
-			InputStream is = getClass().getResourceAsStream(ban);
+			String bil = "billy.ttf";
+			InputStream is = getClass().getResourceAsStream(bil);
 
 			font = Font.createFont(Font.TRUETYPE_FONT, is);
 		} catch (Exception ex) {
@@ -120,7 +124,7 @@ public class EligeLoginRegistro extends JPanel {
 		int color1a = 187;
 		int color1b = 36;
 		int color1c = 92;
-		// nranja rgb 246, 179, 126
+		// naranja rgb 246, 179, 126
 		int color2a = 246;
 		int color2b = 179;
 		int color2c = 126;

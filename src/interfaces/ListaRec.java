@@ -46,12 +46,15 @@ public class ListaRec extends JPanel {
 
 	public ListaRec(Ventana v, String nombre, String nombreUsuario) {
 		super();
+		
 		this.ventana = v;
 		this.nombreUsuario = nombreUsuario;
 		// ventana.setSize(800,800);
 		imagen = new ImageIcon(getClass().getResource(nombre));
 
 		JList<String> list = new JList<String>();
+		
+		
 
 		list.setBounds(140, 141, 777, 285);
 		DefaultListModel<String> modelo = new DefaultListModel<String>();
@@ -100,7 +103,7 @@ public class ListaRec extends JPanel {
 		add(list);
 
 		JButton botonAtras = new JButton("Atr\u00E1s");
-		botonAtras.setBounds(54, 22, 71, 33);
+		botonAtras.setBounds(28, 22, 97, 33);
 		botonAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -113,7 +116,7 @@ public class ListaRec extends JPanel {
 		add(botonAtras);
 
 		JButton btnAnadir = new JButton("CREAR RECETA");
-		btnAnadir.setBounds(582, 474, 136, 38);
+		btnAnadir.setBounds(536, 474, 166, 38);
 		btnAnadir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -123,13 +126,26 @@ public class ListaRec extends JPanel {
 		});
 		add(btnAnadir);
 		JButton btnVer = new JButton("VER RECETA");
-		btnVer.setBounds(441, 474, 109, 38);
+		btnVer.setBounds(360, 474, 166, 38);
 
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnVer.setEnabled(false); 
+				btnAnadir.setText("CREAR RECETA");
+			}
+		});
 		
-		 if(list.getSelectedIndex()==-1) {
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnVer.setEnabled(true); 
+				btnAnadir.setText("MODIFICAR RECETA");
+			}
+		});
+		
+		if(list.getSelectedIndex()==-1) {
 			 btnVer.setEnabled(false); 
-			 }else {
-		 btnVer.setEnabled(true); 
 			 }
 		 
 
@@ -151,8 +167,8 @@ public class ListaRec extends JPanel {
 						// Plato(String nombrePlato, Ingrediente[] ingredientes, TiposPlato tipo, int numeroPersonas,LocalTime tiempo, String pasos)
 						nombreplato = rs.getString(1);
 						String ingrediente1 = rs.getString(2);
-						Ingrediente[] ingredientes = { new Ingrediente(ingrediente1, 2) };
-						tipo = tipo.valueOf(rs.getString(3));
+						Ingrediente[] ingredientes = { new Ingrediente(ingrediente1 ) };
+						//tipo = TiposPlato.valueOf(rs.getString(3));
 						int personas = rs.getInt(4);
 						String tiempo1 = rs.getString(5);
 						// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
@@ -162,7 +178,7 @@ public class ListaRec extends JPanel {
 						tiempo = LocalTime.parse(tiempo1, formatter);
 
 						String pasitos = rs.getString(6);
-						platin = new Plato(nombreplato, ingredientes, tipo, personas, tiempo, pasitos);
+						platin = new Plato(nombreplato, ingredientes, personas, tiempo, pasitos);
 					}
 
 					ventana.getCon().close();
@@ -178,7 +194,7 @@ public class ListaRec extends JPanel {
 		add(btnVer);
 
 		JButton btnNewButton = new JButton("Modificar Login");
-		btnNewButton.setBounds(149, 27, 136, 23);
+		btnNewButton.setBounds(149, 22, 146, 33);
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -186,11 +202,8 @@ public class ListaRec extends JPanel {
 				ventana.irALoginGustosMod();
 			}
 		});
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		add(btnNewButton);
+		
+		//add(btnNewButton);	NO LO TENGO BIEN TERMINADO LA MODIFICACIÓN DE USUARIO
 
 		JLabel lblBuscador = new JLabel("Buscador");
 		lblBuscador.setFont(new Font("Banana Yeti", Font.BOLD, 27));
@@ -198,6 +211,13 @@ public class ListaRec extends JPanel {
 		add(lblBuscador);
 
 		textFieldBuscador = new JTextField();
+		textFieldBuscador.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnVer.setEnabled(false); 
+				btnAnadir.setText("CREAR RECETA");
+			}
+		});
 		textFieldBuscador.setBounds(604, 72, 313, 22);
 		add(textFieldBuscador);
 		textFieldBuscador.setColumns(10);

@@ -30,7 +30,18 @@ public class Plato {
 
    
 
-    public Plato(String nombrePlato, Ingrediente[] ingredientes, TiposPlato tipo, int numeroPersonas,
+    public Plato(String nombrePlato, Ingrediente[] ingredientes, int numeroPersonas, LocalTime tiempo, String pasos) {
+		super();
+		this.nombrePlato = nombrePlato;
+		this.ingredientes = ingredientes;
+		this.numeroPersonas = numeroPersonas;
+		this.tiempo = tiempo;
+		this.pasos = pasos;
+	}
+
+
+
+	public Plato(String nombrePlato, Ingrediente[] ingredientes, TiposPlato tipo, int numeroPersonas,
 			LocalTime tiempo, String pasos) {
 		super();
 		this.nombrePlato = nombrePlato;

@@ -45,6 +45,20 @@ public class Ventana extends JFrame{
 	
 
 	/**
+	 * @return the elr
+	 */
+	public EligeLoginRegistro getElr() {
+		return elr;
+	}
+
+	/**
+	 * @param elr the elr to set
+	 */
+	public void setElr(EligeLoginRegistro elr) {
+		this.elr = elr;
+	}
+
+	/**
 	 * @return the con
 	 */
 	public Connection getCon() {
@@ -74,6 +88,34 @@ public class Ventana extends JFrame{
 	
 	
 	
+
+	/**
+	 * @return the rec
+	 */
+	public Recetas getRec() {
+		return rec;
+	}
+
+	/**
+	 * @param rec the rec to set
+	 */
+	public void setRec(Recetas rec) {
+		this.rec = rec;
+	}
+
+	/**
+	 * @return the nueva
+	 */
+	public NuevasRec getNueva() {
+		return nueva;
+	}
+
+	/**
+	 * @param nueva the nueva to set
+	 */
+	public void setNueva(NuevasRec nueva) {
+		this.nueva = nueva;
+	}
 
 	/**
 	 * @return the lista
@@ -174,7 +216,7 @@ public class Ventana extends JFrame{
 		this.setSize(1100, 600);
 		this.setContentPane(elr);
 		this.setResizable(false);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		try {
 			this.setIconImage(ImageIO.read(new File("./src/imagenes/goroo.png")));
 		} catch (IOException e) {
@@ -184,15 +226,17 @@ public class Ventana extends JFrame{
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				int opcionElegida = JOptionPane.showConfirmDialog(thisRef, "seguro que quieres salir?","una hortaliza bebe será sacrifica entonces... ",JOptionPane.YES_NO_OPTION);
-				System.out.println(opcionElegida);	//Si es 0 y no es 1
+				int opcionElegida = JOptionPane.showConfirmDialog(thisRef, "seguro?","una hortaliza bebé será sacrificada",JOptionPane.YES_NO_OPTION);
+					//Si es 0 y no es 1
 				if(opcionElegida==0) {
 					System.exit(0);
 				}
 				
 			}
 		});
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
 		this.setVisible(true);
 	
 	}
@@ -260,6 +304,9 @@ public class Ventana extends JFrame{
 		if (elr==null) {
 			this.elr= new EligeLoginRegistro(this, "FONDON.jpg");
 			
+		}else {
+			audiPri=new Audioss();
+			this.setElr(new EligeLoginRegistro(this, "FONDON.jpg"));
 		}
 		if(login!=null) {
 			login.setVisible(false);}
@@ -267,7 +314,7 @@ public class Ventana extends JFrame{
 		if(registro!=null) {
 			registro.setVisible(false);
 		}
-
+		
 		this.setContentPane(elr);
 		this.elr.setVisible(true);
 		audi.Stop();
@@ -291,7 +338,9 @@ public class Ventana extends JFrame{
 			this.login.setVisible(false);
 		}
 		if(rec!=null) {
+			
 			this.rec.setVisible(false);
+			this.setRec(null);
 		}
 		if(nueva!=null) {
 			this.nueva.setVisible(false);
@@ -301,8 +350,8 @@ public class Ventana extends JFrame{
 			this.lista= new ListaRec(this,"login.jpg", nombreUsuario);
 		
 		}else {
-			this.setLista(new ListaRec(this,"login.jpg", nombreUsuario));
-			//this.lista= this.getLista();
+			this.setLista(new ListaRec(this,"login.jpg", nombreUsuario));		//HE SACADO ESTA CONCLUSIÓN TARDE :( , quizás podría haberme ahorrado bastantes retoques que hice antes
+			//this.lista= this.getLista();										//Entiendo que así me modifica el objeto ya creado (con sus valores originales), no me crea otro
 		}
 		
 		
@@ -336,9 +385,13 @@ public class Ventana extends JFrame{
 	}
 	
 	public void irANuevasRecetas() {
+		
+		
 		if (nueva==null) {
 			this.nueva= new NuevasRec(this,"login.jpg");
 		
+		}else {
+			this.setNueva(new NuevasRec(this,"login.jpg"));
 		}
 		if(rec!=null) {
 			this.rec.setVisible(false);

@@ -95,7 +95,7 @@ public class Login extends JPanel {
 						ventana.irALista(nombreUsuario);
 
 					} else {
-						JOptionPane.showMessageDialog(ventana, "Contrase�a incorrecta", "Contrase�a incorrecta",
+						JOptionPane.showMessageDialog(ventana, "Introduce el nombre y contrasenia correctos", "Login fallido",
 								JOptionPane.ERROR_MESSAGE);
 					}
 					ventana.getCon().close();

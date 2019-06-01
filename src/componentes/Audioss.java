@@ -15,8 +15,10 @@ public class Audioss extends Object {
 				String path = "src/audios/Tutorial.mp3";
 				Media media = new Media(new File(path).toURI().toString());
 				mp = new MediaPlayer(media);
+				
 				mp.setAutoPlay(true);
-				mp.setVolume(0.4);
+				//mp.setAutoPlay(false);		!!!!!!!!!!!!!!!! MIGUEL SI TE MOLESTA EL AUDIO PUEDES PONERLO EN FALSE
+				mp.setVolume(0.25);
 				MediaView mediaView = new MediaView(mp);
 	}
 public Audioss(String path) {
@@ -25,6 +27,7 @@ public Audioss(String path) {
 	Media media = new Media(new File(path).toURI().toString());
 	mp = new MediaPlayer(media);
 	mp.setAutoPlay(true);
+	//mp.setAutoPlay(false);					!!!!!!!!!!!!!!!! MIGUEL SI TE MOLESTA EL AUDIO PUEDES PONERLO EN FALSE
 	mp.setVolume(0.1);
 	MediaView mediaView = new MediaView(mp);
 	}

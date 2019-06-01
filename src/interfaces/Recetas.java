@@ -55,13 +55,17 @@ public class Recetas extends JPanel {
 		JLabel lblNombreDelPlato = new JLabel("Nombre del Plato:");
 		lblNombreDelPlato.setForeground(Color.WHITE);
 		lblNombreDelPlato.setFont(new Font("Banana Yeti", Font.BOLD, 20));
-		lblNombreDelPlato.setBounds(27, 24, 157, 27);
+		lblNombreDelPlato.setBounds(27, 20, 157, 27);
 		panel.add(lblNombreDelPlato);
 		
 		
 		// NOMBRE REC
 		JTextField campoNombre = new JTextField();
-		campoNombre.setBounds(194, 30, 387, 20);
+		campoNombre.setBorder(null);
+		campoNombre.setForeground(Color.WHITE);
+		campoNombre.setFont(new Font("Banana Yeti", Font.BOLD, 25));
+		campoNombre.setBackground(Color.BLACK);
+		campoNombre.setBounds(194, 11, 620, 39);
 		panel.add(campoNombre);
 		campoNombre.setColumns(10);
 		
@@ -69,6 +73,7 @@ public class Recetas extends JPanel {
 		//PASOS
 		
 		JTextArea textAreaPasos = new JTextArea();
+		textAreaPasos.setFont(new Font("Banana Yeti", Font.BOLD, 20));
 		textAreaPasos.setBounds(27, 281, 787, 211);
 		panel.add(textAreaPasos);
 		
@@ -83,6 +88,10 @@ public class Recetas extends JPanel {
 		//NUM PERSONAS
 		
 		JTextField personas = new JTextField();
+		personas.setBorder(null);
+		personas.setForeground(Color.WHITE);
+		personas.setFont(new Font("Arial", Font.BOLD, 25));
+		personas.setBackground(Color.BLACK);
 		personas.setBounds(295, 75, 40, 27);
 		panel.add(personas);
 		personas.setColumns(10);
@@ -102,14 +111,14 @@ public class Recetas extends JPanel {
 		labelTiempoCoc.setBounds(349, 69, 145, 33);
 		panel.add(labelTiempoCoc);
 		
-		JTextField minPlat = new JTextField();
-		minPlat.setColumns(10);
-		minPlat.setBounds(541, 75, 40, 27);
-		panel.add(minPlat);
 		
 		JTextField hourPlat = new JTextField();
+		hourPlat.setBorder(null);
+		hourPlat.setForeground(Color.WHITE);
+		hourPlat.setFont(new Font("Arial", Font.BOLD, 25));
+		hourPlat.setBackground(Color.BLACK);
 		hourPlat.setColumns(10);
-		hourPlat.setBounds(491, 75, 40, 27);
+		hourPlat.setBounds(492, 75, 136, 27);
 		panel.add(hourPlat);
 		
 		
@@ -122,7 +131,7 @@ public class Recetas extends JPanel {
 		JLabel lblIngredientes = new JLabel("Ingredientes");
 		lblIngredientes.setForeground(Color.WHITE);
 		lblIngredientes.setFont(new Font("Banana Yeti", Font.BOLD, 20));
-		lblIngredientes.setBounds(349, 108, 100, 33);
+		lblIngredientes.setBounds(305, 102, 100, 33);
 		panel.add(lblIngredientes);
 		
 		
@@ -218,10 +227,7 @@ public class Recetas extends JPanel {
 		
 		
 		JButton botonAtras = new JButton("Atr\u00E1s");
-		botonAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+	
 		botonAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -248,8 +254,11 @@ public class Recetas extends JPanel {
 		add(btnVer);
 		
 		JTextArea textIngre = new JTextArea();
+		textIngre.setBackground(Color.BLACK);
+		textIngre.setForeground(Color.WHITE);
+		textIngre.setFont(new Font("Consolas", Font.BOLD, 20));
 		textIngre.setEditable(false);
-		textIngre.setBounds(322, 136, 198, 134);
+		textIngre.setBounds(204, 136, 316, 134);
 		panel.add(textIngre);
 		
 		
@@ -257,20 +266,35 @@ public class Recetas extends JPanel {
 	    campoNombre.setText(platin.getNombrePlato());
 	    personas.setText(Integer.toString(platin.getNumeroPersonas()));
 	    textAreaPasos.setText(platin.getPasos());
-	   
+	    hourPlat.setText(platin.getTiempo().toString());
+	    
 		
 	    campoNombre.setEditable(false);
 		personas.setEditable(false);
 		textAreaPasos.setEditable(false);
 		hourPlat.setEditable(false);
-		minPlat.setEditable(false);
-		String ingrediii = null;
+		
+		String ingrediii = "";
 		
 		
-		
-		textIngre.setText(ingrediii.valueOf(platin.getIngredientes()));
+		//Ingredientes [] ingrid = platin.getIngredientes().clone();
+		textIngre.setText(ingrediii.valueOf(platin.getIngredientes()[0].getNombre()));
 	}
 	
+	/**
+	 * @return the platin
+	 */
+	public Plato getPlatin() {
+		return platin;
+	}
+
+	/**
+	 * @param platin the platin to set
+	 */
+	public void setPlatin(Plato platin) {
+		this.platin = platin;
+	}
+
 	protected void paintComponent(Graphics g) {
 		Dimension d = getSize();
 		g.drawImage(imagen.getImage(), 0, 0, d.width, d.height, null);

@@ -7,6 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -315,6 +319,19 @@ public class Registro extends JPanel {
 						}
 						JOptionPane.showMessageDialog(ventana, "Registro completado", "Registro completado con éxito",
 								JOptionPane.INFORMATION_MESSAGE);
+						File arRegist = new File("./listausers.text");
+						try {
+							FileWriter escritor = new FileWriter(arRegist,true);
+							BufferedWriter bfed = new BufferedWriter(escritor);
+							bfed.write("Usuario registrado:"+ventana.getUsuario().getNombre()+" con email: "+ventana.getUsuario().getEmail() );
+							bfed.close();
+							
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						
 						campoNombre.setText("");
 						campoEmail.setText("");
 						campoContrasenia.setText("");

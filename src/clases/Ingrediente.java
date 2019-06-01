@@ -17,6 +17,11 @@ public class Ingrediente {
         this.nombre = nombre;
         this.gramosPersona = gramosPersona;
     }
+    
+    public Ingrediente(String nombre) {
+        this.nombre = nombre;
+        
+    }
 
     public String getNombre() {
         return nombre;

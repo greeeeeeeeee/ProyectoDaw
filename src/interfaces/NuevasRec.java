@@ -69,6 +69,8 @@ public class NuevasRec extends JPanel {
 		chcEnsalada=new JCheckBox();
 		ingredientesPlato=new Ingrediente[30];
 		 hayNull = false;
+		 
+		 
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.BLACK);
@@ -380,7 +382,9 @@ public class NuevasRec extends JPanel {
         
 		*/
 		
-		
+		if(ventana.getRec()!=null) {
+			campoNombre.setText(ventana.getRec().getPlatin().getNombrePlato());
+		}
 		
 		JButton btnCrearReceta = new JButton("CREAR RECETA");
 		btnCrearReceta.addMouseListener(new MouseAdapter() {
@@ -427,7 +431,7 @@ public class NuevasRec extends JPanel {
 				smt.setString(1, nombreRec);
 				String todosIngre="";
 				for (int i = 0; i < indice; i++) {
-					todosIngre+=ingredientesPlato[i].getNombre()+"-"+ingredientesPlato[i].getGramosPersona()+"\n";
+					todosIngre+=ingredientesPlato[i].getNombre()+"-"+ingredientesPlato[i].getGramosPersona()+"gr.\n";
 				}
 				String todosGustos="";
 				smt.setString(2, todosIngre);
@@ -484,6 +488,10 @@ public class NuevasRec extends JPanel {
 				ingredientesPlato= null;
 				ingredientesPlato=new Ingrediente[30];
 				gustoUs.clear();
+				if(ventana.getRec()!=null) {
+					ventana.getRec().setPlatin(null);
+				}
+				
 				ventana.irALista(ventana.getLista().getNombreUsuario());
 			}
 		});
