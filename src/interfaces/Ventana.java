@@ -76,6 +76,20 @@ public class Ventana extends JFrame{
 	
 
 	/**
+	 * @return the lista
+	 */
+	public ListaRec getLista() {
+		return lista;
+	}
+
+	/**
+	 * @param lista the lista to set
+	 */
+	public void setLista(ListaRec lista) {
+		this.lista = lista;
+	}
+
+	/**
 	 * @return the audiPri
 	 */
 	public Audioss getAudiPri() {
@@ -197,13 +211,17 @@ public class Ventana extends JFrame{
 		add(panel2, BorderLayout.CENTER);
 		this.setBounds(550, 200, 500, 500);
 		this.setContentPane(panel2);
-		//panel2.setLayout(new CardLayout(0, 0));
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);;
 		
 		this.setVisible(true);
 	
 	}
 	
 	public void irALogin() {
+		if(principal!=null) {
+			audi.Stop();
+			this.principal.setVisible(false);
+		}
 		//1- Inicializar login, si no lo est� a
 		if (login==null) {
 			this.login = new Login(this,"login.jpg");
@@ -259,8 +277,7 @@ public class Ventana extends JFrame{
 		if (principal==null) {
 			this.principal= new Principal(this);
 		}
-		if(this.registro!=null) {
-			registro.setVisible(false);}
+		
 		if(login!=null) {
 			login.setVisible(false);}
 		
@@ -268,18 +285,27 @@ public class Ventana extends JFrame{
 		this.principal.setVisible(true);
 	}
 	public void irALista(String nombreUsuario) {
-		audi.Stop();
+		
 		if(login!=null) {
+			audi.Stop();
 			this.login.setVisible(false);
 		}
 		if(rec!=null) {
 			this.rec.setVisible(false);
 		}
+		if(nueva!=null) {
+			this.nueva.setVisible(false);
+		}
 		
 		if (lista==null) {
 			this.lista= new ListaRec(this,"login.jpg", nombreUsuario);
 		
+		}else {
+			this.setLista(new ListaRec(this,"login.jpg", nombreUsuario));
+			//this.lista= this.getLista();
 		}
+		
+		
 		
 		this.setContentPane(lista);
 		this.lista.setVisible(true);

@@ -23,15 +23,7 @@ public class Main {
 	
 	 public static void main(String[] args) throws InterruptedException, ContraseniaCortaException {
         Ventana principal = new Ventana();
-        
-
-        /*
-      //---crear usuarios con gustos
-        ArrayList<TiposPlato> gustos1;
-        gustos1 = new ArrayList<TiposPlato>();
-        Usuario usuarioGusto = new Usuario(, contraseniaRegis, gustos1);
-        
-         */ 
+      
          
         /*
         //---------crear usuario

@@ -126,7 +126,7 @@ public class Recetas extends JPanel {
 		panel.add(lblIngredientes);
 		
 		
-		//GUSTOS
+		//futuro reloj
 		
 		JLabel lblGustos = new JLabel("Reloj");
 		lblGustos.setForeground(Color.WHITE);
@@ -148,7 +148,7 @@ public class Recetas extends JPanel {
 		panel.add(buttonReloj);
 		
 		
-		//IMAGEN
+		//futura IMAGEN
 		
 		JLabel lblImagen = new JLabel("Imagen");
 		lblImagen.setForeground(Color.WHITE);
@@ -168,7 +168,7 @@ public class Recetas extends JPanel {
 		panel.add(btnElegirImagen);
 		
 		
-		//VIDEO
+		//futuro VIDEO
 		
 		JLabel lblVideo = new JLabel("Video");
 		lblVideo.setForeground(Color.WHITE);
@@ -191,12 +191,12 @@ public class Recetas extends JPanel {
 		
 		
 //---------------- Platos creados
-        
+		/*
         HashMap<String, Plato> misPlatos = new HashMap<String, Plato>();
         Ingrediente[] ingredientesPapasHuevos = {new Ingrediente("Patata", 500), new Ingrediente("Huevo", 30), new Ingrediente("Sal", -1)};
         misPlatos.put("Papas con huevos", new Plato("Papas con Huevos", ingredientesPapasHuevos, 1, LocalTime.of(0, 30)));
         
-        /*
+        
         Ingrediente[] ingredientesMojito = {new Ingrediente("cucharaditas de azúcar blanco", 2), new Ingrediente("hojas de hierbabuena", 8), new Ingrediente("ml de zumo de lima", 30)
         		, new Ingrediente("ml. de ron cubano", 60), new Ingrediente("lima en rodajas o cuartos", 1/2),new Ingrediente("ml. de Soda", 120),new Ingrediente("Hielo picado", -1)};
         misPlatos.put("Cóctel Mojito", new Plato("Cóctel Mojito", ingredientesMojito, 1, LocalTime.of(0, 5)));
@@ -226,8 +226,9 @@ public class Recetas extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-
-				ventana.irALista(lista.getNombreUsuario());
+				Plato platin;
+				platin = (null);
+				ventana.irALista(ventana.getLista().getNombreUsuario());
 			}
 		});
 		

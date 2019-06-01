@@ -28,13 +28,7 @@ public class Plato {
     	return null;
     }
 
-    public Plato(String nombrePlato, Ingrediente[] ingredientes, int numeroPersonas,  LocalTime tiempo) {
-        this.nombrePlato = nombrePlato;
-        this.ingredientes = ingredientes;
-        this.numeroPersonas = numeroPersonas;
-        this.tiempo = tiempo;
-    }
-    
+   
 
     public Plato(String nombrePlato, Ingrediente[] ingredientes, TiposPlato tipo, int numeroPersonas,
 			LocalTime tiempo, String pasos) {
@@ -47,6 +41,7 @@ public class Plato {
 		this.pasos = pasos;
 	}
 
+    
 
 	/**
 	 * @return the tipo

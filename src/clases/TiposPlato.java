@@ -19,6 +19,5 @@ public enum TiposPlato {
     DULCES,
     BEBIDA,
     SALSA,
-    PASTA,
-    None
+    PASTA
 }

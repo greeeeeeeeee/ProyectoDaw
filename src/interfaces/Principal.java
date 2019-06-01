@@ -23,14 +23,14 @@ public class Principal extends JPanel{
 	
 	public Principal(Ventana v) {
 		super();
-		setLayout(null);
+		//setLayout(null);
 		
 		ventana = v;
-		MiLabel lblHola = new MiLabel("Hola,"+ventana.getUsuario().getNombre(),30);
+		MiLabel lblHola = new MiLabel("Hola,"+ventana.getUsuario().getNombre()+"\n usuario completado",30);
 		lblHola.setBounds(10, 21, 417, 39);
 		add(lblHola);
 		
-		MiLabel lblNewLabel = new MiLabel(ventana.getUsuario().getEmail()+", "+ventana.getUsuario());
+		MiLabel lblNewLabel = new MiLabel(ventana.getUsuario().getEmail()+", "+ventana.getUsuario().getNombre());
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblNewLabel.setBounds(0, 71, 420, 39);
@@ -57,7 +57,8 @@ public class Principal extends JPanel{
 		});
 		btnLogin.setBounds(351, 37, 89, 23);
 		add(btnLogin);
-		this.ventana.setSize(450, 300);
+		ventana.setSize(450, 300);
+		/*
 		//AQUI VAMOS A LISTAR TODOS LOS USUARIOS
 		try {
 			ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef"));//CONECTAMOS A BASE DE DATOS
@@ -79,7 +80,7 @@ public class Principal extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		
 		this.setVisible(true);;
 	}
