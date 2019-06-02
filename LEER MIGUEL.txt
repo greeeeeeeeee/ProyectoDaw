@@ -1,0 +1,18 @@
+Buenas Miguel, te puse en la carpeta src/base los drivers que use
+Para poder reproducir la música y el video es necesario tener actualizado eclipse 
+y descargar el plugin en el market que se llama: e(fx)clipse 3.5.0
+También te puse las tipografías que use en la carpeta tipografías.
+Perdona hacerte descargar el plugin espero que no tengas problemas
+De lo planificado no pude completar la modificación de gustos,
+el buscador, añadir imágenes y videos y el reloj.
+He conseguido poner un video a modo de prueba aunque no sé si ha sido buena
+idea, he estado todo el día luchando con ello y espero que no desemboque en
+más errores ya que es difícil usar el java media player.
+Si da problemas en la interfaz recetas al ir de una ventana a otra es por el video :(
+lo intenté arreglar lo mejor que pude.
+No supe como colocar la ventana que sale al cerrar la principal, siempre
+se me va a la derecha.
+Por otro lado me di cuenta tarde de lo útil que era hacer set con las ventanas,
+podría haberme ahorrado modificaciones que hice para recuperar ciertas variables
+a su estado inicial.
+un saludo, nos vemos mañana.

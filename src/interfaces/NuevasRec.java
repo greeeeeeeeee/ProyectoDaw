@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +23,7 @@ import clases.Plato;
 import clases.TiposPlato;
 import clases.Usuario;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -55,6 +57,7 @@ public class NuevasRec extends JPanel {
 	boolean hayNull;
 	int posBorrada;
 	private int indice;
+	private ArrayList<Integer> arl ;
 	
 	public NuevasRec (Ventana v,String nombre) {
 		super();
@@ -69,7 +72,7 @@ public class NuevasRec extends JPanel {
 		chcEnsalada=new JCheckBox();
 		ingredientesPlato=new Ingrediente[30];
 		 hayNull = false;
-		 
+		  arl = new ArrayList<Integer>();
 		 
 		
 		JPanel panel = new JPanel();
@@ -104,6 +107,7 @@ public class NuevasRec extends JPanel {
 		lblPasos.setFont(new Font("Banana Yeti", Font.BOLD, 30));
 		lblPasos.setBounds(257, 236, 145, 33);
 		panel.add(lblPasos);
+		
 		
 		
 		//NUM PERSONAS
@@ -271,6 +275,7 @@ public class NuevasRec extends JPanel {
 		panel.add(lblImagen);
 		
 		JButton btnElegirImagen = new JButton("Elegir");
+		btnElegirImagen.setEnabled(false);
 		btnElegirImagen.setBounds(95, 132, 89, 27);
 		panel.add(btnElegirImagen);
 		
@@ -284,6 +289,7 @@ public class NuevasRec extends JPanel {
 		panel.add(lblVideo);
 		
 		JButton btnAVideo = new JButton("Añadir");
+		btnAVideo.setEnabled(false);
 		btnAVideo.setBounds(95, 185, 89, 27);
 		panel.add(btnAVideo);
 		
@@ -312,10 +318,20 @@ public class NuevasRec extends JPanel {
 				if(textFieldIngrediente.getText()!="" && (Integer)spinnerGramos.getValue()>0) {
 					if(hayNull==true) {
 						listIngredientes.add(textFieldIngrediente.getText()+" - "+ (Integer)spinnerGramos.getValue());
-						ingredientesPlato[posBorrada]= new Ingrediente(textFieldIngrediente.getText(), (Integer)spinnerGramos.getValue());
+						
+						if(!arl.isEmpty()) {
+							ingredientesPlato[arl.get(0)]= new Ingrediente(textFieldIngrediente.getText(), (Integer)spinnerGramos.getValue());
+							arl.remove(0);
+							
+						}
+						
+						if(arl.isEmpty()) {
+							hayNull=false;
+							
+						}
 						textFieldIngrediente.setText("");
 						spinnerGramos.setValue(0);
-						hayNull=false;
+						
 					}else {
 						listIngredientes.add(textFieldIngrediente.getText()+" - "+ (Integer)spinnerGramos.getValue());
 						
@@ -339,16 +355,30 @@ public class NuevasRec extends JPanel {
 		btnDelIngre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(listIngredientes.getSelectedIndex()!=-1) {
-					ingredientesPlato[listIngredientes.getSelectedIndex()]= null;
-					posBorrada=listIngredientes.getSelectedIndex();
-					listIngredientes.remove(listIngredientes.getSelectedIndex());
-					hayNull=true;
-					
+				if(arl.size()>=ingredientesPlato.length) {
+					JOptionPane.showMessageDialog(ventana, "Reseteo de ingredientes", "Logro Borrador Masivo +30",
+							JOptionPane.INFORMATION_MESSAGE);
+					indice=0;
+					listIngredientes.removeAll();
+					hayNull=false;
+					arl.clear();
+					ingredientesPlato=null;
+					ingredientesPlato=new Ingrediente[30];
 					textFieldIngrediente.setText("");
 					spinnerGramos.setValue(0);
-					
+				}else {
+					if(listIngredientes.getSelectedIndex()!=-1) {
+						//ingredientesPlato[listIngredientes.getSelectedIndex()]= null;
+						posBorrada=listIngredientes.getSelectedIndex();
+						listIngredientes.remove(listIngredientes.getSelectedIndex());
+						hayNull=true;
+						arl.add(posBorrada);
+						textFieldIngrediente.setText("");
+						spinnerGramos.setValue(0);
+						
+					}
 				}
+				
 				
 				
 			}
@@ -422,44 +452,57 @@ public class NuevasRec extends JPanel {
 					gustoUs.add(TiposPlato.ENSALADA);
 				}
 					
-				///DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:m");
-				//String tiempo = LocalTime.parse(tiempoRec, formatter);
-				ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef")); 
-				PreparedStatement smt =
-				ventana.getCon().prepareStatement("insert into receta_plato values(?,?,?,?,?,?,?)"); //ESTO INSERTA LOS VALORES
-							
-				smt.setString(1, nombreRec);
-				String todosIngre="";
-				for (int i = 0; i < indice; i++) {
-					todosIngre+=ingredientesPlato[i].getNombre()+"-"+ingredientesPlato[i].getGramosPersona()+"gr.\n";
+				if(!nombreRec.equals("") && !pasosRec.equals("") && numPersonRec>0 && (minutosRec>0 || horasRec>0) ) {
+					if(!gustoUs.isEmpty()) {
+						
+						
+						///DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:m");
+						//String tiempo = LocalTime.parse(tiempoRec, formatter);
+						ventana.setCon(DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas","chef","chef")); 
+						PreparedStatement smt =
+						ventana.getCon().prepareStatement("insert into receta_plato values(?,?,?,?,?,?,?)"); //ESTO INSERTA LOS VALORES
+									
+						smt.setString(1, nombreRec);
+						String todosIngre="";
+						for (int i = 0; i < indice; i++) {
+							todosIngre+=ingredientesPlato[i].getNombre()+"-"+ingredientesPlato[i].getGramosPersona()+"gr.\n";
+						}
+						String todosGustos="";
+						smt.setString(2, todosIngre);
+						for (int i = 0; i < gustoUs.size(); i++) {
+							todosGustos+=gustoUs.get(i).toString()+"\n";
+						}
+						smt.setString(3, todosGustos);
+						smt.setInt(4, numPersonRec);
+						smt.setString(5, tiempoRec.toString());
+						smt.setString(6,pasosRec );
+						smt.setString(7, ventana.getLista().getNombreUsuario());			
+						smt.executeUpdate();                                                   //HASTA AQUI SE HAN INSERTADO LOS VALORES PARA LA BASE DE DATOS
+									
+						//PARA añadir en bd necesitamos los campo:  String nombrePlato (String), Ingrediente[] ingredientes (String) , TiposPlato tipo (string), int numeroPersonas int ,LocalTime tiempo string , String pasos string, usuario string		
+						//cerramos
+						
+						ventana.getCon().close();
+						
+						JOptionPane.showMessageDialog(ventana, "Receta creada", "vuelve a la lista para ver el plato",
+								JOptionPane.INFORMATION_MESSAGE);
+						campoNombre.setText("");
+						textAreaPasos.setText("");
+						spinnerPersonas.setValue(0);
+						spinnerMinutos.setValue(0);
+						spinnerHoras.setValue(0);
+						listIngredientes.removeAll();
+						ingredientesPlato= null;
+						gustoUs.clear();
+						}else {
+							JOptionPane.showMessageDialog(ventana, "Añade algún gusto", "Error: poco Gusto",
+									JOptionPane.ERROR_MESSAGE);
+						}
+				}else {
+					JOptionPane.showMessageDialog(ventana, "Porfavor, rellene todos los campos", "Error: campo vacío",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				String todosGustos="";
-				smt.setString(2, todosIngre);
-				for (int i = 0; i < gustoUs.size(); i++) {
-					todosGustos+=gustoUs.get(i).toString()+"\n";
-				}
-				smt.setString(3, todosGustos);
-				smt.setInt(4, numPersonRec);
-				smt.setString(5, tiempoRec.toString());
-				smt.setString(6,pasosRec );
-				smt.setString(7, ventana.getLista().getNombreUsuario());			
-				smt.executeUpdate();                                                   //HASTA AQUI SE HAN INSERTADO LOS VALORES PARA LA BASE DE DATOS
-							
-				//PARA añadir en bd necesitamos los campo:  String nombrePlato (String), Ingrediente[] ingredientes (String) , TiposPlato tipo (string), int numeroPersonas int ,LocalTime tiempo string , String pasos string, usuario string		
-				//cerramos
 				
-				ventana.getCon().close();
-				
-				JOptionPane.showMessageDialog(ventana, "Receta creada", "vuelve a la lista para ver el plato",
-						JOptionPane.INFORMATION_MESSAGE);
-				campoNombre.setText("");
-				textAreaPasos.setText("");
-				spinnerPersonas.setValue(0);
-				spinnerMinutos.setValue(0);
-				spinnerHoras.setValue(0);
-				listIngredientes.removeAll();
-				ingredientesPlato= null;
-				gustoUs.clear();
 				
 			} catch (SQLException ex) {
 				// TODO Auto-generated catch block
@@ -475,7 +518,7 @@ public class NuevasRec extends JPanel {
 		btnCrearReceta.setBounds(345, 524, 150, 37);
 		add(btnCrearReceta);
 					
-		JButton botonAtras = new JButton("Atr\u00E1s");
+		JButton botonAtras = new JButton("Ir a lista");
 		botonAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -501,6 +544,12 @@ public class NuevasRec extends JPanel {
 		
         
         /*
+         * 
+         * JScrollPane jsp = new JScrollPane(); //SCROLLPANE ES PARA QUE SALGA LA BARRA DE DESPLAZAMIENTO POR SI ESCRIBES FUERA DE LA PANATALLA
+		jsp.setViewportView(textArea);
+		
+		 
+		 add(jsp, BorderLayout.CENTER); //A�ADE EL TEXT AREA DENTRO DEL SCROLLPANE
         	
         Scanner sc = new Scanner(System.in);
         System.out.println("Dime plato a ver");

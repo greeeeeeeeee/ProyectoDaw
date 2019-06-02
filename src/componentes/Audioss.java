@@ -31,6 +31,7 @@ public Audioss(String path) {
 	mp.setVolume(0.1);
 	MediaView mediaView = new MediaView(mp);
 	}
+
 	public MediaPlayer getMp() {
 		return mp;
 	}

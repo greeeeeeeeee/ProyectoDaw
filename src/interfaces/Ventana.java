@@ -40,6 +40,7 @@ public class Ventana extends JFrame{
 	private Ventana thisRef;
 	private Plato plato;
 	private Ingrediente ingredientes;
+	protected Object player;
 	 
 	
 	
@@ -88,6 +89,20 @@ public class Ventana extends JFrame{
 	
 	
 	
+
+	/**
+	 * @return the loginMod
+	 */
+	public LoginGustosMod getLoginMod() {
+		return loginMod;
+	}
+
+	/**
+	 * @param loginMod the loginMod to set
+	 */
+	public void setLoginMod(LoginGustosMod loginMod) {
+		this.loginMod = loginMod;
+	}
 
 	/**
 	 * @return the rec
@@ -216,7 +231,7 @@ public class Ventana extends JFrame{
 		this.setSize(1100, 600);
 		this.setContentPane(elr);
 		this.setResizable(false);
-		
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		try {
 			this.setIconImage(ImageIO.read(new File("./src/imagenes/goroo.png")));
 		} catch (IOException e) {
@@ -229,12 +244,14 @@ public class Ventana extends JFrame{
 				int opcionElegida = JOptionPane.showConfirmDialog(thisRef, "seguro?","una hortaliza bebé será sacrificada",JOptionPane.YES_NO_OPTION);
 					//Si es 0 y no es 1
 				if(opcionElegida==0) {
+					//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					System.exit(0);
+					
 				}
 				
 			}
 		});
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		
 		
 		this.setVisible(true);
@@ -245,33 +262,47 @@ public class Ventana extends JFrame{
 		super();
 		
 		//this.setBackground(Color.CYAN);
-		this.setTitle("GUSTOS");
+		this.setTitle(nom);
 		//this.setSize(500, 500);
 		
 		this.setResizable(false);
+		/*
 		JPanel panel2 = new JPanel();
 		panel2.setBackground(Color.BLACK);
 		
-		add(panel2, BorderLayout.CENTER);
+		add(panel2, BorderLayout.CENTER);*/
 		this.setBounds(550, 200, 500, 500);
-		this.setContentPane(panel2);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);;
+		//this.setContentPane(panel2);
+		
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		this.setVisible(true);
 	
 	}
 	
 	public void irALogin() {
-		if(principal!=null) {
-			audi.Stop();
-			this.principal.setVisible(false);
-		}
+		
 		//1- Inicializar login, si no lo est� a
 		if (login==null) {
 			this.login = new Login(this,"login.jpg");
 		}
-		audiPri.Stop();
+		
+		if(elr!=null) {
+			audiPri.Stop();
+		}
 		audi = new Audioss("");
+		
+		if(principal!=null) {
+			audi.Stop();
+			this.principal.setVisible(false);
+		}
+		
+		if (loginMod!=null) {
+			audi.Stop();
+			this.loginMod.setVisible(false);
+			
+		
+		}
 		
 		//2- Hacer invisible las ventanas anteriores
 		this.elr.setVisible(false);
@@ -336,6 +367,7 @@ public class Ventana extends JFrame{
 		if(login!=null) {
 			audi.Stop();
 			this.login.setVisible(false);
+			
 		}
 		if(rec!=null) {
 			
@@ -354,7 +386,10 @@ public class Ventana extends JFrame{
 			//this.lista= this.getLista();										//Entiendo que así me modifica el objeto ya creado (con sus valores originales), no me crea otro
 		}
 		
-		
+		if(loginMod!=null) {
+			this.loginMod.setVisible(false);
+			audi.Stop();
+		}
 		
 		this.setContentPane(lista);
 		this.lista.setVisible(true);
@@ -364,9 +399,12 @@ public class Ventana extends JFrame{
 		if (loginMod==null) {
 			this.loginMod= new LoginGustosMod(this,"loginMod.jpg");
 		
+		}else {
+			this.setLoginMod(new LoginGustosMod(this,"loginMod.jpg"));
 		}
 		
 		this.lista.setVisible(false);
+		audi = new Audioss("");
 		this.setContentPane(loginMod);
 		this.loginMod.setVisible(true);
 	}
@@ -377,6 +415,8 @@ public class Ventana extends JFrame{
 		if (rec==null) {
 			this.rec= new Recetas(this,"login.jpg",p);
 		
+		}else {
+			this.setRec(new Recetas(this,"login.jpg",p));
 		}
 		
 		this.lista.setVisible(false);

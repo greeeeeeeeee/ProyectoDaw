@@ -319,8 +319,9 @@ public class Registro extends JPanel {
 						}
 						JOptionPane.showMessageDialog(ventana, "Registro completado", "Registro completado con éxito",
 								JOptionPane.INFORMATION_MESSAGE);
-						File arRegist = new File("./listausers.text");
+						
 						try {
+							File arRegist = new File("./listausers.txt");
 							FileWriter escritor = new FileWriter(arRegist,true);
 							BufferedWriter bfed = new BufferedWriter(escritor);
 							bfed.write("Usuario registrado:"+ventana.getUsuario().getNombre()+" con email: "+ventana.getUsuario().getEmail() );
@@ -328,7 +329,8 @@ public class Registro extends JPanel {
 							
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(ventana, "Fallo en el guardado", "Fallo en el guardado",
+									JOptionPane.INFORMATION_MESSAGE);
 						}
 						
 						
@@ -352,7 +354,7 @@ public class Registro extends JPanel {
 
 				} else {
 					// podria hacer aquí distinción de si nombre, email o contraseña están vacíos
-					// con errores más específicos
+					// como con los gustos
 					JOptionPane.showMessageDialog(ventana, "Porfavor, rellene todos los campos", "Error: campo vacío",
 							JOptionPane.ERROR_MESSAGE);
 

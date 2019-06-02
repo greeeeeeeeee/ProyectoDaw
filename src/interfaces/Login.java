@@ -63,86 +63,81 @@ public class Login extends JPanel {
 		add(campoContrasenia);
 		campoContrasenia.setColumns(10);
 		String nombreUsuario2 = "";
-		BotonMenu botonLogin = new BotonMenu("Login");
-		botonLogin.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				String nombreUsuario = campoNombreUsuario.getText();
-				String contrasenia = String.copyValueOf(campoContrasenia.getPassword());
-				try {
-					ventana.setCon(
-							DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas", "chef", "chef"));
-					
-					// set global time_zone='+1:00';*/
-					Statement smt = ventana.getCon().createStatement();
-					// he cambiado email por nombre en el where y el getstring
-					ResultSet rs = smt.executeQuery("select * from usuarios where Nombre ='" + nombreUsuario
-							+ "' and Password = '" + contrasenia + "'");// AQUI SOLO PONEMOS LOS CAMPOS QUE ESTAMOS buscando
-																		
-					if (rs.next()) {
-						// AQUI PONEMOS EL RESTO DE CAMPOS
-						String email = rs.getString("email");
-
-						try {
-							ventana.setUsuario(new Usuario(nombreUsuario, contrasenia, email));
-						} catch (NombreCortoException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						campoNombreUsuario.setText("");
-						campoContrasenia.setText("");
-						ventana.irALista(nombreUsuario);
-
-					} else {
-						JOptionPane.showMessageDialog(ventana, "Introduce el nombre y contrasenia correctos", "Login fallido",
-								JOptionPane.ERROR_MESSAGE);
-					}
-					ventana.getCon().close();
-
-				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(ventana, "Conexion fallida", "Conexi�n incorrecta",
-							JOptionPane.ERROR_MESSAGE);
-					e.printStackTrace();
-				} catch (ContraseniaCortaException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-		});
-		botonLogin.setBounds(102, 239, 89, 23);
-		add(botonLogin);
-
-		JButton botonAtras = new JButton("Atr\u00E1s");
-		botonAtras.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				campoNombreUsuario.setText("");
-				campoContrasenia.setText("");
-
-				ventana.irAEligeLoginRegistro();
-			}
-		});
-		botonAtras.setBounds(102, 282, 89, 23);
-		add(botonAtras);
-
-		JButton btnIaA = new JButton("ir a");
-		btnIaA.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				ventana.irALista(nombreUsuario2);
-			}
-		});
-		btnIaA.setBounds(217, 241, 89, 23);
-		add(btnIaA);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.BLACK);
-		panel.setBounds(10, 34, 461, 310);
+		panel.setBounds(10, 32, 461, 310);
 		add(panel);
+				panel.setLayout(null);
+		
+				JButton botonAtras = new JButton("Atr\u00E1s");
+				botonAtras.setBounds(113, 262, 89, 23);
+				panel.add(botonAtras);
+				BotonMenu botonLogin = new BotonMenu("Login");
+				botonLogin.setBounds(212, 260, 89, 25);
+				panel.add(botonLogin);
+				botonLogin.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						
+						String nombreUsuario = campoNombreUsuario.getText();
+						String contrasenia = String.copyValueOf(campoContrasenia.getPassword());
+						if(!nombreUsuario.equals("") && !contrasenia.equals("") ) {
+							
+						try {
+							ventana.setCon(
+									DriverManager.getConnection("jdbc:mysql://192.168.1.112:3306/recetas", "chef", "chef"));
+							
+							// set global time_zone='+1:00';*/
+							Statement smt = ventana.getCon().createStatement();
+							// he cambiado email por nombre en el where y el getstring
+							ResultSet rs = smt.executeQuery("select * from usuarios where Nombre ='" + nombreUsuario
+									+ "' and Password = '" + contrasenia + "'");// AQUI SOLO PONEMOS LOS CAMPOS QUE ESTAMOS buscando
+																				
+							if (rs.next()) {
+								// AQUI PONEMOS EL RESTO DE CAMPOS
+								String email = rs.getString("email");
+
+								try {
+									ventana.setUsuario(new Usuario(nombreUsuario, contrasenia, email));
+								} catch (NombreCortoException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								campoNombreUsuario.setText("");
+								campoContrasenia.setText("");
+								ventana.irALista(nombreUsuario);
+
+							} else {
+								JOptionPane.showMessageDialog(ventana, "Introduce el nombre y contrasenia correctos", "Login fallido",
+										JOptionPane.ERROR_MESSAGE);
+							}
+							ventana.getCon().close();
+
+						} catch (SQLException e) {
+							JOptionPane.showMessageDialog(ventana, "Conexion fallida", "Conexi�n incorrecta",
+									JOptionPane.ERROR_MESSAGE);
+							e.printStackTrace();
+						} catch (ContraseniaCortaException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}else {
+						JOptionPane.showMessageDialog(ventana, "Porfavor, rellene todos los campos", "Error: campo vacío",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					}
+				});
+				botonAtras.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+
+						campoNombreUsuario.setText("");
+						campoContrasenia.setText("");
+
+						ventana.irAEligeLoginRegistro();
+					}
+				});
 
 		this.setVisible(true);
 	}
